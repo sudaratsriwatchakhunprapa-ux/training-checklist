@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Training Prep · Stock System</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Chakra+Petch:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f5f6fa;
+  --surface: #ffffff;
+  --surface2: #f8f9fc;
+  --surface3: #eef0f7;
+  --border: #e2e5f0;
+  --border2: #d0d4e8;
+  --gold: #c9910a;
+  --gold-bg: #fef9ec;
+  --gold-border: #f5d98a;
+  --gold2: #e8a70e;
+  --green: #16a34a;
+  --green-bg: #f0fdf4;
+  --green-border: #86efac;
+  --red: #dc2626;
+  --red-bg: #fef2f2;
+  --red-border: #fca5a5;
+  --blue: #2563eb;
+  --blue-bg: #eff6ff;
+  --blue-border: #93c5fd;
+  --text: #1e2433;
+  --text2: #5a6480;
+  --text3: #9ba3bf;
+  --shadow: 0 1px 4px rgba(30,36,51,0.08), 0 4px 16px rgba(30,36,51,0.06);
+  --shadow-sm: 0 1px 3px rgba(30,36,51,0.08);
+  --radius: 12px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Sarabun', 'IBM Plex Sans Thai', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+.app { max-width: 1000px; margin: 0 auto; padding: 28px 20px 80px; }
+
+/* TOP HEADER */
+.top-header {
+  background: linear-gradient(135deg, #1e2433 0%, #2d3655 55%, #1e3a5f 100%);
+  border-radius: 18px; padding: 28px 32px 24px;
+  margin-bottom: 20px; position: relative; overflow: hidden;
+  box-shadow: 0 8px 32px rgba(30,36,51,0.18);
+}
+.top-header::before {
+  content: ''; position: absolute; top: -40px; right: -40px;
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(201,145,10,0.22) 0%, transparent 70%);
+}
+.top-header::after {
+  content: ''; position: absolute; bottom: -20px; left: 25%;
+  width: 300px; height: 100px;
+  background: radial-gradient(ellipse, rgba(37,99,235,0.12) 0%, transparent 70%);
+}
+.top-header .badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(201,145,10,0.2); border: 1px solid rgba(201,145,10,0.4);
+  color: #f5d98a; font-family: 'Chakra Petch', sans-serif;
+  font-size: 10px; letter-spacing: 2px; padding: 4px 12px; border-radius: 20px; margin-bottom: 12px;
+}
+.top-header h1 {
+  font-family: 'Chakra Petch', sans-serif; font-size: 26px; font-weight: 700;
+  color: #fff; margin-bottom: 6px;
+}
+.top-header p { font-size: 14px; color: rgba(255,255,255,0.5); }
+
+/* TABS */
+.tabs {
+  display: flex; gap: 4px; margin-bottom: 20px;
+  background: var(--surface); border-radius: 14px; padding: 5px;
+  border: 1px solid var(--border); box-shadow: var(--shadow-sm);
+}
+.tab-btn {
+  flex: 1; padding: 10px 6px; border: none; border-radius: 10px;
+  background: none; color: var(--text2); cursor: pointer;
+  font-family: 'Chakra Petch', sans-serif; font-size: 12px; font-weight: 600;
+  letter-spacing: 0.3px; transition: all 0.2s;
+}
+.tab-btn.active { background: var(--text); color: #fff; box-shadow: var(--shadow-sm); }
+.tab-btn:not(.active):hover { background: var(--surface2); color: var(--text); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* CARD */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden; margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.card-header {
+  background: var(--surface2); padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+}
+.card-title {
+  font-family: 'Chakra Petch', sans-serif; font-size: 11px;
+  letter-spacing: 2px; color: var(--text2); text-transform: uppercase; font-weight: 600;
+}
+.card-body { padding: 20px; }
+
+/* FORM */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.form-grid .span2 { grid-column: 1 / -1; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: 11px; font-weight: 700; color: var(--text2); letter-spacing: 0.8px; text-transform: uppercase; }
+.field input, .field textarea {
+  background: var(--surface2); border: 1.5px solid var(--border);
+  border-radius: 8px; padding: 9px 13px; color: var(--text);
+  font-family: 'Sarabun', sans-serif; font-size: 14px;
+  outline: none; transition: all 0.2s; width: 100%;
+}
+.field input:focus, .field textarea:focus { border-color: var(--blue); background: var(--blue-bg); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+.field textarea { resize: vertical; min-height: 72px; }
+
+/* ATTENDEE */
+.attendee-row {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--green-bg); border: 1.5px solid var(--green-border);
+  border-radius: 12px; padding: 16px 22px; margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.attendee-label { font-family: 'Chakra Petch', sans-serif; font-size: 13px; color: var(--green); font-weight: 600; }
+.attendee-hint { font-size: 11px; color: var(--text3); margin-top: 3px; }
+.stepper { display: flex; align-items: center; background: #fff; border: 1.5px solid var(--green-border); border-radius: 10px; overflow: hidden; box-shadow: var(--shadow-sm); }
+.stepper button { background: none; border: none; color: var(--green); width: 38px; height: 38px; font-size: 17px; cursor: pointer; font-weight: 700; transition: background 0.15s; }
+.stepper button:hover { background: var(--green-bg); }
+.stepper .val { font-family: 'Chakra Petch', sans-serif; font-size: 20px; font-weight: 700; color: var(--text); min-width: 56px; text-align: center; border-left: 1px solid var(--green-border); border-right: 1px solid var(--green-border); }
+
+/* PROGRESS */
+.progress-wrap { margin-bottom: 18px; }
+.progress-label { display: flex; justify-content: space-between; margin-bottom: 8px; }
+.progress-label span { font-size: 12px; color: var(--text2); font-weight: 500; }
+.progress-label .pct { font-family: 'Chakra Petch', sans-serif; color: var(--green); font-weight: 700; font-size: 15px; }
+.progress-bar { height: 8px; background: var(--surface3); border-radius: 99px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, #16a34a, #22c55e); border-radius: 99px; transition: width 0.5s cubic-bezier(.4,0,.2,1); }
+.stats-row { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+.stat-chip {
+  flex: 1; min-width: 90px;
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 10px; padding: 12px 16px; display: flex; flex-direction: column; gap: 3px;
+  box-shadow: var(--shadow-sm);
+}
+.stat-chip .sv { font-family: 'Chakra Petch', sans-serif; font-size: 24px; font-weight: 700; }
+.stat-chip .sk { font-size: 10px; color: var(--text3); letter-spacing: 1px; text-transform: uppercase; }
+.sv-total { color: var(--text); }
+.sv-done { color: var(--green); }
+.sv-left { color: var(--red); }
+
+/* TABLE */
+.tbl { width: 100%; border-collapse: collapse; }
+.tbl thead th {
+  font-family: 'Chakra Petch', sans-serif; font-size: 10px; letter-spacing: 1.5px;
+  color: var(--text3); padding: 10px 12px; text-align: left; font-weight: 600;
+  background: var(--surface2); border-bottom: 1.5px solid var(--border);
+}
+.tbl tbody tr { border-bottom: 1px solid var(--border); transition: background 0.12s; }
+.tbl tbody tr:last-child { border-bottom: none; }
+.tbl tbody tr:hover { background: var(--surface2); }
+.tbl tbody tr.done { background: var(--green-bg); }
+.tbl tbody tr.done .item-name { text-decoration: line-through; color: var(--text3); }
+.tbl td { padding: 11px 12px; font-size: 14px; vertical-align: middle; }
+
+.item-cell { display: flex; align-items: center; gap: 10px; }
+.item-icon { font-size: 20px; flex-shrink: 0; }
+.item-name { font-weight: 600; color: var(--text); }
+.item-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+
+.qty-input {
+  background: var(--surface2); border: 1.5px solid var(--border);
+  border-radius: 7px; padding: 6px 8px; color: var(--gold);
+  font-family: 'Chakra Petch', sans-serif; font-size: 15px; font-weight: 700;
+  width: 80px; text-align: center; outline: none; transition: all 0.2s;
+}
+.qty-input:focus { border-color: var(--gold2); background: var(--gold-bg); }
+
+.chk-wrap { display: flex; justify-content: center; }
+.chk-box {
+  width: 28px; height: 28px; border: 2px solid var(--border2);
+  border-radius: 7px; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s; background: var(--surface2); flex-shrink: 0;
+}
+.chk-box:hover { border-color: var(--green); background: var(--green-bg); }
+.chk-box.checked { background: var(--green); border-color: var(--green); box-shadow: 0 2px 8px rgba(22,163,74,0.3); }
+.chk-box .tick { display: none; color: white; font-size: 15px; font-weight: 800; }
+.chk-box.checked .tick { display: block; }
+
+.note-input {
+  background: var(--surface2); border: 1px solid var(--border);
+  border-radius: 7px; padding: 6px 10px; color: var(--text);
+  font-family: 'Sarabun', sans-serif; font-size: 13px; width: 100%;
+  outline: none; transition: all 0.2s;
+}
+.note-input:focus { border-color: var(--blue); background: var(--blue-bg); }
+
+.stock-badge {
+  display: inline-flex; align-items: center;
+  padding: 3px 9px; border-radius: 20px;
+  font-family: 'Chakra Petch', sans-serif; font-size: 11px; font-weight: 600;
+}
+.badge-ok  { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.badge-low { background: var(--gold-bg);  color: var(--gold);  border: 1px solid var(--gold-border); }
+.badge-out { background: var(--red-bg);   color: var(--red);   border: 1px solid var(--red-border); }
+
+/* SHIRT SIZES — 3-row horizontal table */
+.shirt-table {
+  width: 100%; border-collapse: collapse;
+  margin: 0; font-family: 'Chakra Petch', sans-serif;
+}
+.shirt-table td, .shirt-table th {
+  border: 1px solid var(--border); text-align: center;
+  padding: 5px 8px; font-size: 12px; vertical-align: middle;
+}
+.shirt-table .row-label {
+  text-align: left; font-size: 11px; font-weight: 700;
+  color: var(--text2); padding: 5px 12px; white-space: nowrap;
+  background: var(--surface2); width: 70px;
+}
+.shirt-table .sz-head {
+  font-size: 11px; font-weight: 700; color: var(--text2);
+  background: var(--surface2); letter-spacing: 0.5px;
+}
+.shirt-table .sz-stock {
+  font-size: 12px; font-weight: 700; color: var(--green);
+  background: var(--green-bg);
+}
+.shirt-table .sz-stock.low { color: var(--gold); background: var(--gold-bg); }
+.shirt-table .sz-stock.out { color: var(--red); background: var(--red-bg); }
+.shirt-table .sz-input {
+  background: var(--surface); border: none; border-radius: 0;
+  color: var(--gold); font-family: 'Chakra Petch', sans-serif;
+  font-size: 13px; font-weight: 700; width: 52px;
+  text-align: center; outline: none; padding: 4px 2px;
+}
+.shirt-table .sz-input:focus { background: var(--gold-bg); }
+.shirt-table .sz-chk-cell { background: var(--surface); }
+.size-chk {
+  width: 22px; height: 22px; border: 1.5px solid var(--border2);
+  border-radius: 5px; display: inline-flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.2s; background: var(--surface2);
+  font-size: 12px; font-weight: 800; margin: auto;
+}
+.size-chk:hover { border-color: var(--green); background: var(--green-bg); }
+.size-chk.checked { background: var(--green); border-color: var(--green); color: white; }
+
+/* BUTTONS */
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn {
+  border: none; border-radius: 9px; padding: 11px 22px; cursor: pointer;
+  font-family: 'Chakra Petch', sans-serif; font-size: 13px; font-weight: 600;
+  letter-spacing: 0.3px; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
+  white-space: nowrap;
+}
+.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+.btn:active { transform: translateY(0); box-shadow: none; }
+.btn-primary { background: var(--text); color: #fff; }
+.btn-primary:hover { background: #2d3655; }
+.btn-green { background: var(--green); color: #fff; }
+.btn-green:hover { background: #15803d; }
+.btn-gold { background: var(--gold); color: #fff; }
+.btn-gold:hover { background: var(--gold2); }
+.btn-blue { background: var(--blue); color: #fff; }
+.btn-blue:hover { background: #1d4ed8; }
+.btn-outline { background: var(--surface); color: var(--text2); border: 1.5px solid var(--border); }
+.btn-outline:hover { border-color: var(--text); color: var(--text); background: var(--surface2); }
+.btn-red { background: var(--red); color: white; }
+.btn-red:hover { background: #b91c1c; }
+.btn-sm { padding: 6px 12px; font-size: 11px; border-radius: 6px; }
+
+/* STOCK TAB */
+.stock-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+.stock-search {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 9px; padding: 9px 14px; color: var(--text);
+  font-family: 'Sarabun', sans-serif; font-size: 14px; outline: none; width: 230px;
+  box-shadow: var(--shadow-sm); transition: all 0.2s;
+}
+.stock-search:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+.stock-tbl { width: 100%; border-collapse: collapse; }
+.stock-tbl thead th {
+  font-family: 'Chakra Petch', sans-serif; font-size: 10px; letter-spacing: 1.5px;
+  color: var(--text3); padding: 11px 16px; text-align: left; font-weight: 600;
+  background: var(--surface2); border-bottom: 1.5px solid var(--border);
+}
+.stock-tbl tbody tr { border-bottom: 1px solid var(--border); transition: background 0.12s; }
+.stock-tbl tbody tr:last-child { border-bottom: none; }
+.stock-tbl tbody tr:hover { background: var(--surface2); }
+.stock-tbl td { padding: 10px 16px; font-size: 14px; vertical-align: middle; }
+.stock-num {
+  background: var(--surface2); border: 1.5px solid var(--border);
+  border-radius: 7px; padding: 5px 8px; width: 80px; text-align: center;
+  color: var(--text); font-family: 'Chakra Petch', sans-serif; font-size: 15px; font-weight: 700;
+  outline: none; transition: all 0.2s;
+}
+.stock-num:focus { border-color: var(--blue); background: var(--blue-bg); }
+.adj-group { display: flex; gap: 5px; flex-wrap: wrap; justify-content: center; }
+.adj-btn {
+  border: 1.5px solid var(--border); border-radius: 6px;
+  padding: 5px 9px; cursor: pointer; font-size: 12px; font-weight: 700;
+  transition: all 0.15s; font-family: 'Chakra Petch', sans-serif;
+  background: var(--surface);
+}
+.adj-add { color: var(--green); }
+.adj-add:hover { background: var(--green-bg); border-color: var(--green); }
+.adj-sub { color: var(--red); }
+.adj-sub:hover { background: var(--red-bg); border-color: var(--red); }
+
+/* HISTORY */
+.history-list { display: flex; flex-direction: column; gap: 10px; }
+.history-item {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: 12px; padding: 16px 20px;
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+  box-shadow: var(--shadow-sm); transition: box-shadow 0.2s;
+}
+.history-item:hover { box-shadow: var(--shadow); }
+.hi-project { font-weight: 700; font-size: 15px; margin-bottom: 5px; }
+.hi-meta { font-size: 12px; color: var(--text2); line-height: 1.8; }
+.hi-ts { font-family: 'Chakra Petch', sans-serif; font-size: 11px; color: var(--text3); margin-top: 6px; }
+.hi-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px; border-radius: 20px; font-size: 11px;
+  font-family: 'Chakra Petch', sans-serif; font-weight: 600; white-space: nowrap;
+}
+.tag-sheet { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.tag-local { background: var(--surface2); color: var(--text2); border: 1px solid var(--border); }
+
+/* SETTINGS */
+.sheet-config {
+  background: var(--blue-bg); border: 1.5px solid var(--blue-border);
+  border-radius: 12px; padding: 18px 20px; margin-bottom: 20px;
+}
+.sheet-config-label { font-size: 11px; color: var(--blue); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; display: block; font-weight: 700; }
+.sheet-config input {
+  background: var(--surface); border: 1.5px solid var(--blue-border);
+  border-radius: 8px; padding: 9px 13px; color: var(--text);
+  font-family: 'Sarabun', sans-serif; font-size: 14px; width: 100%; outline: none;
+  transition: all 0.2s;
+}
+.sheet-config input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(37,99,235,0.15); }
+.sheet-help { font-size: 12px; color: var(--text2); margin-top: 10px; line-height: 2; background: rgba(255,255,255,0.7); padding: 12px 16px; border-radius: 8px; }
+.sheet-help code { background: var(--surface3); padding: 2px 6px; border-radius: 4px; font-family: monospace; font-size: 11px; }
+pre.code-block {
+  background: #1e2433; border-radius: 10px; padding: 16px;
+  font-size: 11px; color: #a9b1d0; overflow-x: auto;
+  line-height: 1.7; white-space: pre; font-family: 'Courier New', monospace;
+  border: 1px solid rgba(255,255,255,0.08); max-height: 320px;
+}
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(90px);
+  background: var(--text); color: #fff;
+  border-radius: 12px; padding: 13px 24px; font-size: 14px; font-weight: 500;
+  box-shadow: 0 8px 32px rgba(30,36,51,0.25);
+  transition: transform 0.35s cubic-bezier(.34,1.56,.64,1); z-index: 9999; white-space: nowrap;
+  display: flex; align-items: center; gap: 10px; pointer-events: none;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+.toast.ok   { background: var(--green); }
+.toast.err  { background: var(--red); }
+.toast.info { background: var(--blue); }
+
+/* MODAL */
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(30,36,51,0.45); z-index: 9000;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.2s; backdrop-filter: blur(4px);
+}
+.modal-overlay.show { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--surface); border-radius: 16px; padding: 28px 32px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.18); max-width: 400px; width: 90%;
+  transform: scale(0.95); transition: transform 0.25s cubic-bezier(.34,1.56,.64,1);
+  border: 1px solid var(--border);
+}
+.modal-overlay.show .modal { transform: scale(1); }
+.modal h3 { font-family: 'Chakra Petch', sans-serif; font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+.modal p { font-size: 14px; color: var(--text2); line-height: 1.7; margin-bottom: 20px; white-space: pre-line; }
+.modal-btns { display: flex; gap: 10px; justify-content: flex-end; }
+
+/* PRINT — A4 single page */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm 10mm 8mm 10mm;
+  }
+
+  * { print-color-adjust: exact; -webkit-print-color-adjust: exact; box-sizing: border-box; }
+
+  /* hide everything screen-only */
+  body { background: white !important; margin: 0; padding: 0; font-size: 10pt; }
+  .tabs, .btn-row, .toast, .modal-overlay,
+  .stats-row, .progress-wrap, .attendee-row,
+  #tab-stock, #tab-history, #tab-settings,
+  .top-header, .card-header { display: none !important; }
+
+  .app { padding: 0; max-width: 100%; width: 100%; }
+  .tab-panel { display: none !important; }
+  #tab-checklist { display: block !important; }
+
+  /* hide global note textarea (too tall) */
+  #tab-checklist > .card:last-of-type { display: none !important; }
+
+  /* ── PRINT HEADER ── */
+  .print-header {
+    display: flex !important;
+    align-items: center; justify-content: space-between;
+    border-bottom: 2.5px solid #1e2433;
+    padding-bottom: 5px; margin-bottom: 6px;
+  }
+  .print-header .ph-title {
+    font-family: 'Chakra Petch', sans-serif;
+    font-size: 15pt; font-weight: 700; color: #1e2433; line-height: 1.1;
+  }
+  .print-header .ph-sub {
+    font-size: 8pt; color: #5a6480; margin-top: 2px;
+  }
+  .print-header .ph-logo {
+    font-size: 9pt; color: #5a6480; text-align: right; line-height: 1.8;
+  }
+
+  /* ── PROJECT INFO ROW ── */
+  .print-info {
+    display: flex !important;
+    gap: 0; margin-bottom: 6px;
+    border: 1px solid #d0d4e8; border-radius: 4px; overflow: hidden;
+  }
+  .print-info .pi-cell {
+    flex: 1; padding: 4px 8px; border-right: 1px solid #d0d4e8;
+    font-size: 8pt;
+  }
+  .print-info .pi-cell:last-child { border-right: none; }
+  .print-info .pi-label { font-weight: 700; color: #5a6480; font-size: 7pt; text-transform: uppercase; letter-spacing: 0.5px; }
+  .print-info .pi-val { color: #1e2433; font-weight: 600; margin-top: 1px; min-height: 12px; }
+
+  /* ── TABLE ── */
+  .card { box-shadow: none !important; border: 1px solid #d0d4e8 !important; border-radius: 4px !important; margin-bottom: 0 !important; overflow: visible !important; }
+  .card-body { padding: 0 !important; }
+
+  .tbl { width: 100%; border-collapse: collapse; font-size: 8.5pt; }
+  .tbl thead th {
+    background: #1e2433 !important; color: #fff !important;
+    font-family: 'Chakra Petch', sans-serif; font-size: 7pt; letter-spacing: 0.8px;
+    padding: 4px 6px; text-align: left; font-weight: 600; border: none;
+  }
+  .tbl tbody tr { border-bottom: 0.5px solid #e2e5f0 !important; }
+  .tbl tbody tr:last-child { border-bottom: none !important; }
+  .tbl tbody tr.done { background: #f0fdf4 !important; }
+  .tbl tbody tr.done .item-name { text-decoration: line-through; color: #9ba3bf; }
+  .tbl td { padding: 3px 6px !important; font-size: 8.5pt; vertical-align: middle; }
+
+  .item-icon { font-size: 12pt !important; }
+  .item-name { font-size: 8.5pt !important; font-weight: 600; }
+  .item-sub  { display: none !important; }
+
+  .qty-input {
+    background: white !important; border: 0.8px solid #ccc !important;
+    color: #1e2433 !important; font-size: 8.5pt !important;
+    padding: 2px 4px !important; width: 50px !important; border-radius: 3px;
+  }
+  .note-input {
+    background: white !important; border: 0.8px solid #ccc !important;
+    color: #1e2433 !important; font-size: 8pt !important;
+    padding: 2px 5px !important; border-radius: 3px;
+  }
+
+  /* checkbox */
+  .chk-box {
+    width: 16px !important; height: 16px !important;
+    border: 1.5px solid #888 !important; border-radius: 3px !important;
+    background: white !important;
+  }
+  .chk-box.checked { background: #16a34a !important; border-color: #16a34a !important; }
+  .chk-box .tick { font-size: 10px !important; }
+
+  /* stock badge — hidden in print */
+  .stock-badge { display: none !important; }
+
+  /* ── SHIRT SIZES — print 3-row table ── */
+  .shirt-table { width: 100% !important; font-size: 7.5pt !important; }
+  .shirt-table td, .shirt-table th { padding: 2px 4px !important; border: 0.5px solid #ccc !important; }
+  .shirt-table .row-label { font-size: 7pt !important; width: 50px !important; background: #f0f0f0 !important; }
+  .shirt-table .sz-head { background: #f0f0f0 !important; font-size: 7pt !important; }
+  .shirt-table .sz-stock { font-size: 8pt !important; }
+  .shirt-table .sz-input { font-size: 8pt !important; width: 100% !important; background: white !important; }
+  .size-chk { width: 14px !important; height: 14px !important; font-size: 9px !important; border: 1px solid #888 !important; background: white !important; }
+  .size-chk.checked { background: #16a34a !important; border-color: #16a34a !important; }
+
+  /* ── SIGNATURE ROW ── */
+  .print-signature {
+    display: flex !important;
+    gap: 16px; margin-top: 10px;
+  }
+  .sig-box {
+    flex: 1;
+    border: 0.8px solid #bbb;
+    border-radius: 4px;
+    padding: 8px 10px 28px;
+    font-size: 8pt; color: #5a6480;
+  }
+  .sig-box .sig-role {
+    font-weight: 700; font-size: 8.5pt; color: #1e2433;
+    margin-bottom: 40px; /* space for actual signature */
+    display: block;
+  }
+  .sig-box .sig-line {
+    border-top: 0.8px solid #888;
+    padding-top: 3px; font-size: 7.5pt; color: #888;
+  }
+
+  /* hide item-cell gap issue */
+  .item-cell { gap: 5px !important; }
+
+  /* show print-only elements */
+  .print-note-sig { display: block !important; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="top-header">
+    <div class="badge">🎓 EVENT TEAM · TRAINING OPS</div>
+    <h1>ระบบเตรียมของอบรม</h1>
+    <p>จัดการรายการ · ติดตามสต๊อก · ส่งข้อมูลไป Google Sheets อัตโนมัติ</p>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('checklist',this)">📋 Checklist</button>
+    <button class="tab-btn" onclick="switchTab('stock',this)">📦 คลังสต๊อก</button>
+    <button class="tab-btn" onclick="switchTab('history',this)">🕑 ประวัติ</button>
+    <button class="tab-btn" onclick="switchTab('settings',this)">⚙️ ตั้งค่า</button>
+  </div>
+
+  <!-- ===== CHECKLIST ===== -->
+  <div class="tab-panel active" id="tab-checklist">
+
+    <!-- PRINT ONLY: compact header -->
+    <div class="print-header" style="display:none;">
+      <div>
+        <div class="ph-title">📋 ใบรายการเตรียมของอบรม</div>
+        <div class="ph-sub">Training Preparation Checklist</div>
+      </div>
+      <div class="ph-logo">
+        พิมพ์วันที่: <span id="printDate"></span><br>
+        EVENT TEAM · TRAINING OPS
+      </div>
+    </div>
+
+    <!-- PRINT ONLY: project info inline row -->
+    <div class="print-info" style="display:none;">
+      <div class="pi-cell" style="flex:2.5;">
+        <div class="pi-label">ชื่อโครงการ</div>
+        <div class="pi-val" id="pi-project">—</div>
+      </div>
+      <div class="pi-cell">
+        <div class="pi-label">วันที่อบรม</div>
+        <div class="pi-val" id="pi-date">—</div>
+      </div>
+      <div class="pi-cell">
+        <div class="pi-label">สถานที่</div>
+        <div class="pi-val" id="pi-venue">—</div>
+      </div>
+      <div class="pi-cell">
+        <div class="pi-label">ผู้รับผิดชอบ</div>
+        <div class="pi-val" id="pi-owner">—</div>
+      </div>
+      <div class="pi-cell">
+        <div class="pi-label">จำนวนคน</div>
+        <div class="pi-val" id="pi-count">—</div>
+      </div>
+      <div class="pi-cell">
+        <div class="pi-label">วันที่เตรียม</div>
+        <div class="pi-val" id="pi-prepdate">—</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">ข้อมูลโครงการ</span></div>
+      <div class="card-body">
+        <div class="form-grid">
+          <div class="field span2">
+            <label>ชื่อโครงการ</label>
+            <input type="text" id="projName" placeholder="ระบุชื่อโครงการอบรม...">
+          </div>
+          <div class="field">
+            <label>วันที่อบรม</label>
+            <input type="date" id="projDate">
+          </div>
+          <div class="field">
+            <label>สถานที่</label>
+            <input type="text" id="projVenue" placeholder="ระบุสถานที่...">
+          </div>
+          <div class="field">
+            <label>ผู้รับผิดชอบ</label>
+            <input type="text" id="projOwner" placeholder="ชื่อผู้รับผิดชอบ...">
+          </div>
+          <div class="field">
+            <label>วันที่เตรียม</label>
+            <input type="date" id="projPrepDate">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="attendee-row">
+      <div>
+        <div class="attendee-label">👥 จำนวนผู้เข้าอบรม</div>
+        <div class="attendee-hint">ตั้งค่าเริ่มต้นให้ทุกรายการ · แก้ไขแต่ละรายการได้ในตาราง</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <div class="stepper">
+          <button onclick="changeCount(-10)">−−</button>
+          <button onclick="changeCount(-1)">−</button>
+          <div class="val" id="countDisplay">30</div>
+          <button onclick="changeCount(1)">+</button>
+          <button onclick="changeCount(10)">++</button>
+        </div>
+        <span style="color:var(--text2);font-size:14px;font-weight:600;">คน</span>
+      </div>
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>ความคืบหน้าการเตรียมของ</span>
+        <span class="pct" id="pctLabel">0%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+    <div class="stats-row">
+      <div class="stat-chip"><div class="sv sv-total" id="statTotal">0</div><div class="sk">รายการทั้งหมด</div></div>
+      <div class="stat-chip"><div class="sv sv-done" id="statDone">0</div><div class="sk">เตรียมแล้ว</div></div>
+      <div class="stat-chip"><div class="sv sv-left" id="statLeft">0</div><div class="sk">ยังไม่เตรียม</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">รายการสิ่งของ</span>
+        <span style="font-size:11px;color:var(--text3);">คลิก ✓ เพื่อมาร์คว่าเตรียมแล้ว</span>
+      </div>
+      <div style="overflow-x:auto;">
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th style="padding-left:20px;width:33%;">รายการ</th>
+              <th style="text-align:center;width:13%;">จำนวน</th>
+              <th style="text-align:center;width:7%;">หน่วย</th>
+              <th style="width:27%;">หมายเหตุ</th>
+              <th style="text-align:center;width:12%;">เตรียมแล้ว</th>
+              <th style="text-align:center;width:8%;">สต๊อก</th>
+            </tr>
+          </thead>
+          <tbody id="checklistBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">หมายเหตุเพิ่มเติม</span></div>
+      <div class="card-body">
+        <textarea id="globalNote" placeholder="บันทึกข้อสังเกต รายการพิเศษ หรือสิ่งที่ต้องระวัง..."
+          style="background:var(--surface2);border:1.5px solid var(--border);border-radius:9px;padding:12px 14px;color:var(--text);font-family:'Sarabun',sans-serif;font-size:14px;width:100%;min-height:80px;resize:vertical;outline:none;transition:all 0.2s;"
+          onfocus="this.style.borderColor='var(--blue)';this.style.background='var(--blue-bg)'"
+          onblur="this.style.borderColor='var(--border)';this.style.background='var(--surface2)'"></textarea>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" onclick="doPrint()">🖨️ พิมพ์ฟอร์ม A4</button>
+      <button class="btn btn-green" onclick="saveAndSendSheet()">📊 บันทึก + ส่ง Google Sheets</button>
+      <button class="btn btn-gold" id="deductBtn" onclick="confirmDeductStock()">📦 ตัดสต๊อก</button>
+      <button class="btn btn-outline" onclick="resetChecks()">↺ ล้าง Checklist</button>
+    </div>
+
+    <!-- PRINT ONLY: note + signature -->
+    <div class="print-note-sig" style="display:none;margin-top:8px;">
+      <div style="border:0.8px solid #d0d4e8;border-radius:4px;padding:5px 10px 8px;margin-bottom:10px;">
+        <div style="font-size:7pt;font-weight:700;color:#5a6480;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:3px;">หมายเหตุ / Notes</div>
+        <div id="pi-note" style="font-size:8pt;color:#1e2433;min-height:20px;line-height:1.6;"></div>
+      </div>
+      <div class="print-signature">
+        <div class="sig-box">
+          <span class="sig-role">ผู้เตรียมของ</span>
+          <div class="sig-line">ลงชื่อ ...................................................<br>( .................................................. )<br>วันที่ ................ / ................ / ................</div>
+        </div>
+        <div class="sig-box">
+          <span class="sig-role">ผู้ตรวจสอบ</span>
+          <div class="sig-line">ลงชื่อ ...................................................<br>( .................................................. )<br>วันที่ ................ / ................ / ................</div>
+        </div>
+        <div class="sig-box">
+          <span class="sig-role">ผู้อนุมัติ</span>
+          <div class="sig-line">ลงชื่อ ...................................................<br>( .................................................. )<br>วันที่ ................ / ................ / ................</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STOCK ===== -->
+  <div class="tab-panel" id="tab-stock">
+    <div class="stock-top">
+      <div>
+        <div style="font-family:'Chakra Petch',sans-serif;font-size:18px;font-weight:700;color:var(--text);">📦 คลังสต๊อกสิ่งของ</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:3px;">อัปเดตสต๊อกก่อน-หลังอบรม · กด "ตัดสต๊อก" จาก Checklist เพื่อหักอัตโนมัติ</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <input type="text" class="stock-search" id="stockSearch" placeholder="🔍 ค้นหารายการ..." oninput="renderStock(this.value)">
+        <button class="btn btn-outline btn-sm" onclick="document.getElementById('stockSearch').value='';renderStock('')">↺</button>
+      </div>
+    </div>
+    <div class="card">
+      <div style="overflow-x:auto;">
+        <table class="stock-tbl">
+          <thead>
+            <tr>
+              <th style="width:26%;">รายการ</th>
+              <th style="width:12%;text-align:center;">สต๊อกปัจจุบัน</th>
+              <th style="width:10%;text-align:center;">สถานะ</th>
+              <th style="width:26%;text-align:center;">ปรับสต๊อก (+/−)</th>
+              <th style="width:26%;">หมายเหตุ</th>
+            </tr>
+          </thead>
+          <tbody id="stockBody"></tbody>
+        </table>
+      </div>
+    </div>
+    <div style="margin-top:10px;font-size:12px;color:var(--text3);display:flex;gap:16px;flex-wrap:wrap;">
+      <span>🟢 ปกติ = มากกว่า 20 ชิ้น</span>
+      <span>🟡 น้อย = ต่ำกว่า 20 ชิ้น</span>
+      <span>🔴 หมด = 0 หรือน้อยกว่า</span>
+    </div>
+  </div>
+
+  <!-- ===== HISTORY ===== -->
+  <div class="tab-panel" id="tab-history">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+      <div>
+        <div style="font-family:'Chakra Petch',sans-serif;font-size:18px;font-weight:700;color:var(--text);">🕑 ประวัติการบันทึก</div>
+        <div style="font-size:12px;color:var(--text3);margin-top:3px;">บันทึกทุกครั้งที่กด "บันทึก + ส่ง Google Sheets"</div>
+      </div>
+      <button class="btn btn-outline" onclick="confirmClearHistory()">🗑️ ล้างประวัติ</button>
+    </div>
+    <div class="history-list" id="historyList"></div>
+  </div>
+
+  <!-- ===== SETTINGS ===== -->
+  <div class="tab-panel" id="tab-settings">
+    <div class="card">
+      <div class="card-header"><span class="card-title">🔗 Google Sheets Integration</span></div>
+      <div class="card-body">
+        <div class="sheet-config">
+          <span class="sheet-config-label">Google Apps Script Web App URL</span>
+          <input type="url" id="sheetUrl" placeholder="https://script.google.com/macros/s/.../exec">
+          <div class="sheet-help">
+            <strong>วิธีตั้งค่า (ทำครั้งเดียว):</strong><br>
+            1. เปิด Google Sheets → <code>Extensions</code> → <code>Apps Script</code><br>
+            2. วางโค้ดด้านล่างทั้งหมด (แทนที่โค้ดเดิม) → <code>Ctrl+S</code> บันทึก<br>
+            3. คลิก <code>Deploy</code> → <code>New deployment</code> → Type: <code>Web app</code><br>
+            4. Execute as: <code>Me</code> · Who has access: <code>Anyone</code> → <code>Deploy</code><br>
+            5. คัดลอก URL ที่ได้ → วางในช่องด้านบน → กด "บันทึก URL"
+          </div>
+        </div>
+
+        <div style="margin-bottom:20px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <span style="font-size:11px;color:var(--text2);font-family:'Chakra Petch',sans-serif;letter-spacing:1px;font-weight:600;">GOOGLE APPS SCRIPT CODE</span>
+            <button class="btn btn-outline btn-sm" onclick="copyAppsScript()">📋 คัดลอก Code</button>
+          </div>
+          <pre class="code-block" id="appsScriptCode"></pre>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="saveSheetUrl()">💾 บันทึก URL</button>
+          <button class="btn btn-blue" onclick="testSheetConnection()">🔌 ทดสอบการเชื่อมต่อ</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span class="card-title">ข้อมูลแอปพลิเคชัน</span></div>
+      <div class="card-body">
+        <div style="font-size:13px;color:var(--text2);margin-bottom:16px;background:var(--blue-bg);border-radius:8px;padding:12px 16px;border-left:3px solid var(--blue);">
+          💾 ข้อมูลทั้งหมดบันทึกใน <strong>localStorage</strong> ของ browser นี้ — ใช้ Export เพื่อสำรองข้อมูลสำคัญ
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-outline" onclick="exportData()">⬇️ Export JSON</button>
+          <button class="btn btn-outline" onclick="importData()">⬆️ Import JSON</button>
+          <button class="btn btn-red" onclick="confirmResetAll()">⚠️ รีเซ็ตทั้งหมด</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3 id="modalTitle"></h3>
+    <p id="modalMsg"></p>
+    <div class="modal-btns">
+      <button class="btn btn-outline" onclick="closeModal()">ยกเลิก</button>
+      <button class="btn btn-red" id="modalConfirmBtn">ยืนยัน</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── CONSTANTS ───────────────────────────────
+const SIZES = ['XS','S','M','L','XL','2XL','3XL','4XL','5XL'];
+const ITEMS_DEF = [
+  { id:'receipt',   icon:'🧾', name:'ใบเสร็จ',          unit:'ชิ้น' },
+  { id:'cert',      icon:'📜', name:'วุฒิบัตร',          unit:'ชิ้น' },
+  { id:'certcover', icon:'📁', name:'ปกวุฒิบัตร',        unit:'ชิ้น' },
+  { id:'bag',       icon:'🎒', name:'กระเป๋า',            unit:'ใบ'   },
+  { id:'notebook',  icon:'📓', name:'สมุด',               unit:'เล่ม' },
+  { id:'pen',       icon:'🖊️', name:'ปากกา',             unit:'ด้าม' },
+  { id:'book',      icon:'📚', name:'หนังสืออบรม',        unit:'เล่ม' },
+  { id:'schedule',  icon:'📋', name:'เอกสารกำหนดการ',    unit:'ชุด'  },
+  { id:'shirt',     icon:'👕', name:'เสื้อ',              unit:'ตัว',  isShirt:true },
+];
+
+// ─── STATE ───────────────────────────────────
+function makeDefaultState() {
+  const items = {};
+  const stock = {};
+  ITEMS_DEF.forEach(it => {
+    if (it.isShirt) {
+      items[it.id] = { note:'', checked:false, sizes: Object.fromEntries(SIZES.map(s=>[s,{qty:0,checked:false}])) };
+      stock[it.id] = { note:'', sizes: Object.fromEntries(SIZES.map(s=>[s,50])) };
+    } else {
+      items[it.id] = { qty:30, note:'', checked:false };
+      stock[it.id] = { qty:100, note:'' };
+    }
+  });
+  return { count:30, items, stock, history:[], sheetUrl:'' };
+}
+
+function loadState() {
+  try { const r = localStorage.getItem('trainingApp_v3'); return r ? JSON.parse(r) : null; }
+  catch { return null; }
+}
+function saveState() { localStorage.setItem('trainingApp_v3', JSON.stringify(state)); }
+
+let state = loadState() || makeDefaultState();
+// Ensure history array exists (migration)
+if (!state.history) state.history = [];
+
+// ─── TOAST ───────────────────────────────────
+let _toastTimer;
+function toast(msg, type='ok') {
+  const el = document.getElementById('toast');
+  clearTimeout(_toastTimer);
+  el.textContent = msg;
+  el.className = `toast show ${type}`;
+  _toastTimer = setTimeout(() => { el.className = 'toast'; }, 3800);
+}
+
+// ─── MODAL ───────────────────────────────────
+let _modalCb = null;
+function openModal(title, msg, btnTxt, btnCls, cb) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalMsg').textContent = msg;
+  const btn = document.getElementById('modalConfirmBtn');
+  btn.textContent = btnTxt;
+  btn.className = `btn ${btnCls}`;
+  _modalCb = cb;
+  document.getElementById('modalOverlay').classList.add('show');
+}
+function closeModal() { document.getElementById('modalOverlay').classList.remove('show'); _modalCb = null; }
+document.getElementById('modalConfirmBtn').onclick = () => { const cb = _modalCb; closeModal(); if(cb) cb(); };
+document.getElementById('modalOverlay').onclick = e => { if(e.target===e.currentTarget) closeModal(); };
+
+// ─── TABS ────────────────────────────────────
+function switchTab(id, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  if (id==='stock') renderStock('');
+  if (id==='history') renderHistory();
+  if (id==='settings') loadSettings();
+}
+
+// ─── CHECKLIST ───────────────────────────────
+function changeCount(d) {
+  state.count = Math.max(1, state.count + d);
+  document.getElementById('countDisplay').textContent = state.count;
+  ITEMS_DEF.forEach(it => { if (!it.isShirt) state.items[it.id].qty = state.count; });
+  saveState();
+  renderChecklist();
+}
+
+function renderChecklist() {
+  const tbody = document.getElementById('checklistBody');
+  tbody.innerHTML = '';
+  ITEMS_DEF.forEach(it => {
+    const s = state.items[it.id];
+    const st = state.stock[it.id];
+
+    if (it.isShirt) {
+      const totalQty = SIZES.reduce((a,sz) => a+(parseInt(s.sizes[sz].qty)||0), 0);
+      const allChecked = SIZES.every(sz => s.sizes[sz].checked);
+
+      // คำนวณสต๊อกรวมทุกไซส์
+      const totalStock = SIZES.reduce((a,sz) => a+(parseInt(st.sizes[sz])||0), 0);
+      let shirtBadge = '';
+      if (totalStock <= 0)  shirtBadge = `<span class="stock-badge badge-out">หมด</span>`;
+      else if (totalStock < 20) shirtBadge = `<span class="stock-badge badge-low">${totalStock}</span>`;
+      else                  shirtBadge = `<span class="stock-badge badge-ok">${totalStock}</span>`;
+
+      const tr = document.createElement('tr');
+      tr.className = allChecked ? 'done' : '';
+      tr.innerHTML = `
+        <td style="padding-left:20px;">
+          <div class="item-cell">
+            <span class="item-icon">${it.icon}</span>
+            <div><div class="item-name">${it.name}</div><div class="item-sub">กำหนดจำนวนแต่ละไซส์ด้านล่าง</div></div>
+          </div>
+        </td>
+        <td style="text-align:center;"><span class="shirt-total-qty" style="font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:16px;color:var(--gold);">${totalQty}</span></td>
+        <td style="text-align:center;font-size:12px;color:var(--text3);">${it.unit}</td>
+        <td><input class="note-input" value="${s.note||''}" placeholder="หมายเหตุ..." oninput="updateNote('${it.id}',this.value)"></td>
+        <td class="chk-wrap"><div class="chk-box ${allChecked?'checked':''}" onclick="toggleShirtAll('${it.id}',this)"><span class="tick">✓</span></div></td>
+        <td style="text-align:center;">${shirtBadge}</td>
+      `;
+      tbody.appendChild(tr);
+
+      const tr2 = document.createElement('tr');
+      const bg = allChecked ? 'var(--green-bg)' : 'var(--surface2)';
+      // build stock class per size
+      const stockCls = sz => {
+        const q = st.sizes[sz] || 0;
+        return q <= 0 ? 'out' : q < 20 ? 'low' : '';
+      };
+      tr2.innerHTML = `<td colspan="6" style="padding:0 0 0 0;background:${bg};border-top:1px solid var(--border);">
+        <table class="shirt-table">
+          <tbody>
+            <tr>
+              <td class="row-label">ไซส์</td>
+              ${SIZES.map(sz=>`<td class="sz-head">${sz}</td>`).join('')}
+            </tr>
+            <tr>
+              <td class="row-label">สต๊อก</td>
+              ${SIZES.map(sz=>`<td class="sz-stock ${stockCls(sz)}">${st.sizes[sz]||0}</td>`).join('')}
+            </tr>
+            <tr>
+              <td class="row-label">เบิก</td>
+              ${SIZES.map(sz=>`<td style="padding:3px 4px;background:${bg};">
+                <input class="sz-input" type="number" min="0" value="${s.sizes[sz].qty||0}"
+                  oninput="updateSizeQty('${it.id}','${sz}',this.value)">
+              </td>`).join('')}
+            </tr>
+            <tr>
+              <td class="row-label" style="color:var(--green);font-size:10px;">เตรียมแล้ว</td>
+              ${SIZES.map(sz=>`<td class="sz-chk-cell">
+                <div class="size-chk ${s.sizes[sz].checked?'checked':''}" onclick="toggleSize('${it.id}','${sz}',this)">✓</div>
+              </td>`).join('')}
+            </tr>
+          </tbody>
+        </table>
+      </td>`;
+      tbody.appendChild(tr2);
+
+    } else {
+      let badge = '';
+      if (st && st.qty !== undefined && st.qty !== null) {
+        const q = st.qty;
+        if (q <= 0)  badge = `<span class="stock-badge badge-out">หมด</span>`;
+        else if (q < 20) badge = `<span class="stock-badge badge-low">${q}</span>`;
+        else         badge = `<span class="stock-badge badge-ok">${q}</span>`;
+      }
+      const tr = document.createElement('tr');
+      tr.className = s.checked ? 'done' : '';
+      tr.innerHTML = `
+        <td style="padding-left:20px;">
+          <div class="item-cell"><span class="item-icon">${it.icon}</span><div class="item-name">${it.name}</div></div>
+        </td>
+        <td style="text-align:center;">
+          <input class="qty-input" type="number" min="0" value="${s.qty}" oninput="updateQty('${it.id}',this.value)">
+        </td>
+        <td style="text-align:center;font-size:12px;color:var(--text3);">${it.unit}</td>
+        <td><input class="note-input" value="${s.note||''}" placeholder="หมายเหตุ..." oninput="updateNote('${it.id}',this.value)"></td>
+        <td class="chk-wrap"><div class="chk-box ${s.checked?'checked':''}" onclick="toggleItem('${it.id}',this)"><span class="tick">✓</span></div></td>
+        <td style="text-align:center;">${badge}</td>
+      `;
+      tbody.appendChild(tr);
+    }
+  });
+  updateProgress();
+}
+
+function updateQty(id, val) { state.items[id].qty = Math.max(0, parseInt(val)||0); saveState(); updateProgress(); }
+function updateNote(id, val) { state.items[id].note = val; saveState(); }
+function updateSizeQty(id, sz, val) {
+  // แปลงเป็น int เฉพาะตอน blur หรือถ้า val เป็นตัวเลขสมบูรณ์
+  // ไม่ re-render — แค่บันทึก state และอัปเดตยอดรวม
+  const num = parseInt(val);
+  state.items[id].sizes[sz].qty = isNaN(num) ? 0 : Math.max(0, num);
+  saveState();
+  // อัปเดตยอดรวมเสื้อแถวหลัก (ไม่ re-render ทั้งตาราง)
+  const totalQty = SIZES.reduce((a,s) => a+(parseInt(state.items[id].sizes[s].qty)||0), 0);
+  const totalEl = document.querySelector('#checklistBody .shirt-total-qty');
+  if (totalEl) totalEl.textContent = totalQty;
+  updateProgress();
+}
+
+function toggleItem(id, el) {
+  state.items[id].checked = !state.items[id].checked;
+  el.classList.toggle('checked');
+  el.closest('tr').className = state.items[id].checked ? 'done' : '';
+  saveState(); updateProgress();
+}
+function toggleSize(id, sz, el) {
+  state.items[id].sizes[sz].checked = !state.items[id].sizes[sz].checked;
+  el.classList.toggle('checked');
+  saveState(); renderChecklist();
+}
+function toggleShirtAll(id) {
+  const allDone = SIZES.every(s => state.items[id].sizes[s].checked);
+  SIZES.forEach(s => { state.items[id].sizes[s].checked = !allDone; });
+  saveState(); renderChecklist();
+}
+
+function updateProgress() {
+  const total = ITEMS_DEF.length;
+  const done = ITEMS_DEF.filter(i => !i.isShirt && state.items[i.id].checked).length
+             + (SIZES.every(s => state.items['shirt'].sizes[s].checked) ? 1 : 0);
+  const pct = total ? Math.round(done/total*100) : 0;
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('pctLabel').textContent = pct+'%';
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statDone').textContent = done;
+  document.getElementById('statLeft').textContent = total-done;
+}
+
+function resetChecks() {
+  ITEMS_DEF.forEach(it => {
+    state.items[it.id].checked = false;
+    if (it.isShirt) SIZES.forEach(s => { state.items[it.id].sizes[s].checked = false; });
+  });
+  saveState(); renderChecklist();
+  updateDeductBtn();
+  toast('↺ ล้าง Checklist แล้ว', 'info');
+}
+
+// ─── STOCK ───────────────────────────────────
+function renderStock(filter) {
+  if (filter === undefined) filter = document.getElementById('stockSearch')?.value || '';
+  const tbody = document.getElementById('stockBody');
+  tbody.innerHTML = '';
+
+  ITEMS_DEF.forEach(it => {
+    if (filter && !it.name.includes(filter)) return;
+    const st = state.stock[it.id];
+
+    if (it.isShirt) {
+      const hdr = document.createElement('tr');
+      hdr.innerHTML = `<td colspan="5" style="padding:12px 16px 6px;font-family:'Chakra Petch',sans-serif;font-size:11px;color:var(--gold);letter-spacing:1.5px;font-weight:700;background:var(--gold-bg);border-top:2px solid var(--gold-border);">
+        👕 เสื้อ — สต๊อกแยกไซส์</td>`;
+      tbody.appendChild(hdr);
+
+      SIZES.forEach(sz => {
+        const qty = st.sizes[sz] || 0;
+        const badge = qty<=0
+          ? `<span class="stock-badge badge-out">หมด</span>`
+          : qty<20
+            ? `<span class="stock-badge badge-low">น้อย</span>`
+            : `<span class="stock-badge badge-ok">ปกติ</span>`;
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="padding-left:28px;">
+            ไซส์ <b style="font-family:'Chakra Petch',sans-serif;font-size:13px;">${sz}</b>
+          </td>
+          <td style="text-align:center;">
+            <input class="stock-num" type="number" min="0" value="${qty}"
+              onchange="setStockSize('${sz}',this.value)">
+          </td>
+          <td style="text-align:center;">${badge}</td>
+          <td>
+            <div class="adj-group">
+              <button class="adj-btn adj-add" onclick="adjStockSize('${sz}',1)">+1</button>
+              <button class="adj-btn adj-add" onclick="adjStockSize('${sz}',10)">+10</button>
+              <button class="adj-btn adj-sub" onclick="adjStockSize('${sz}',-1)">−1</button>
+              <button class="adj-btn adj-sub" onclick="adjStockSize('${sz}',-10)">−10</button>
+            </div>
+          </td>
+          <td><input class="note-input" placeholder="หมายเหตุ..." style="font-size:12px;"></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+    } else {
+      const qty = st.qty || 0;
+      const badge = qty<=0
+        ? `<span class="stock-badge badge-out">หมด</span>`
+        : qty<20
+          ? `<span class="stock-badge badge-low">น้อย (${qty})</span>`
+          : `<span class="stock-badge badge-ok">ปกติ (${qty})</span>`;
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>
+          <div class="item-cell">
+            <span style="font-size:20px;">${it.icon}</span>
+            <span style="font-weight:600;">${it.name}</span>
+          </div>
+        </td>
+        <td style="text-align:center;">
+          <input class="stock-num" type="number" min="0" value="${qty}"
+            onchange="setStock('${it.id}',this.value)">
+        </td>
+        <td style="text-align:center;">${badge}</td>
+        <td>
+          <div class="adj-group">
+            <button class="adj-btn adj-add" onclick="adjStock('${it.id}',1)">+1</button>
+            <button class="adj-btn adj-add" onclick="adjStock('${it.id}',10)">+10</button>
+            <button class="adj-btn adj-sub" onclick="adjStock('${it.id}',-1)">−1</button>
+            <button class="adj-btn adj-sub" onclick="adjStock('${it.id}',-10)">−10</button>
+          </div>
+        </td>
+        <td>
+          <input class="note-input" value="${st.note||''}" placeholder="หมายเหตุ..."
+            oninput="state.stock['${it.id}'].note=this.value;saveState();" style="font-size:12px;">
+        </td>
+      `;
+      tbody.appendChild(tr);
+    }
+  });
+}
+
+function setStock(id, val) { state.stock[id].qty = Math.max(0,parseInt(val)||0); saveState(); }
+function adjStock(id, d) { state.stock[id].qty = Math.max(0,(state.stock[id].qty||0)+d); saveState(); renderStock(); renderChecklist(); }
+function setStockSize(sz, val) { state.stock['shirt'].sizes[sz] = Math.max(0,parseInt(val)||0); saveState(); }
+function adjStockSize(sz, d) { state.stock['shirt'].sizes[sz] = Math.max(0,(state.stock['shirt'].sizes[sz]||0)+d); saveState(); renderStock(); }
+
+// ─── DEDUCT STOCK (FIXED + LOCK) ─────────────
+function getDeductKey() {
+  // unique key per project+date — used to lock the deduct button
+  const proj = (document.getElementById('projName')?.value || '').trim();
+  const date = (document.getElementById('projDate')?.value || '').trim();
+  return (proj || 'no-project') + '|' + (date || 'no-date');
+}
+
+function updateDeductBtn() {
+  const btn = document.getElementById('deductBtn');
+  if (!btn) return;
+  const key = getDeductKey();
+  const alreadyDone = state.deductedKeys && state.deductedKeys[key];
+  if (alreadyDone) {
+    btn.disabled = true;
+    btn.style.opacity = '0.45';
+    btn.style.cursor = 'not-allowed';
+    btn.title = `ตัดสต๊อกโปรเจกต์นี้แล้ว (${alreadyDone})`;
+    btn.innerHTML = '✅ ตัดสต๊อกแล้ว';
+  } else {
+    btn.disabled = false;
+    btn.style.opacity = '';
+    btn.style.cursor = '';
+    btn.title = '';
+    btn.innerHTML = '📦 ตัดสต๊อก';
+  }
+}
+
+function confirmDeductStock() {
+  const key = getDeductKey();
+  if (state.deductedKeys && state.deductedKeys[key]) {
+    toast(`⚠️ โปรเจกต์นี้ตัดสต๊อกไปแล้ว ไม่สามารถตัดซ้ำได้`, 'err'); return;
+  }
+
+  const lines = [];
+  ITEMS_DEF.forEach(it => {
+    if (it.isShirt) {
+      SIZES.forEach(sz => {
+        const s = state.items['shirt'].sizes[sz];
+        if (s.checked && (s.qty||0) > 0) {
+          lines.push(`เสื้อ ${sz}: −${s.qty} ตัว (คงเหลือ ${Math.max(0,(state.stock['shirt'].sizes[sz]||0)-s.qty)})`);
+        }
+      });
+    } else {
+      const s = state.items[it.id];
+      if (s.checked && (s.qty||0) > 0) {
+        lines.push(`${it.name}: −${s.qty} ${it.unit} (คงเหลือ ${Math.max(0,(state.stock[it.id].qty||0)-s.qty)})`);
+      }
+    }
+  });
+  if (!lines.length) { toast('ไม่มีรายการที่ติ๊กว่าเตรียมแล้ว', 'info'); return; }
+
+  const preview = lines.slice(0,6).join('\n') + (lines.length>6 ? `\n...และอีก ${lines.length-6} รายการ` : '');
+  openModal('📦 ยืนยันตัดสต๊อก', preview, 'ตัดสต๊อก', 'btn-gold', doDeductStock);
+}
+
+function doDeductStock() {
+  let count = 0;
+  ITEMS_DEF.forEach(it => {
+    if (it.isShirt) {
+      SIZES.forEach(sz => {
+        const s = state.items['shirt'].sizes[sz];
+        if (s.checked) {
+          const d = parseInt(s.qty) || 0;
+          state.stock['shirt'].sizes[sz] = Math.max(0, (state.stock['shirt'].sizes[sz]||0) - d);
+          count++;
+        }
+      });
+    } else {
+      const s = state.items[it.id];
+      if (s.checked) {
+        const d = parseInt(s.qty) || 0;
+        state.stock[it.id].qty = Math.max(0, (state.stock[it.id].qty||0) - d);
+        count++;
+      }
+    }
+  });
+
+  // Lock this project key
+  if (!state.deductedKeys) state.deductedKeys = {};
+  const key = getDeductKey();
+  state.deductedKeys[key] = new Date().toLocaleString('th-TH', {dateStyle:'short', timeStyle:'short'});
+
+  saveState();
+  renderChecklist();
+  updateDeductBtn();
+  toast(`✅ ตัดสต๊อกแล้ว ${count} รายการ — ล็อคการตัดซ้ำแล้ว`);
+}
+
+// ─── HISTORY ─────────────────────────────────
+function renderHistory() {
+  const el = document.getElementById('historyList');
+  if (!state.history?.length) {
+    el.innerHTML = `<div style="text-align:center;padding:60px 20px;color:var(--text3);">
+      <div style="font-size:48px;margin-bottom:14px;">📭</div>
+      <div style="font-size:14px;font-weight:500;">ยังไม่มีประวัติการบันทึก</div>
+      <div style="font-size:12px;margin-top:6px;">กด "บันทึก + ส่ง Google Sheets" เพื่อสร้างประวัติ</div>
+    </div>`;
+    return;
+  }
+  el.innerHTML = [...state.history].reverse().map(h => `
+    <div class="history-item">
+      <div style="flex:1;">
+        <div class="hi-project">${h.project || '(ไม่ระบุชื่อโครงการ)'}</div>
+        <div class="hi-meta">📍 ${h.venue||'—'} &nbsp;·&nbsp; 📅 ${h.date||'—'} &nbsp;·&nbsp; 👥 ${h.count||0} คน</div>
+        <div class="hi-meta">✅ เตรียมแล้ว ${h.done||0} / ${h.total||0} รายการ</div>
+        ${h.notes ? `<div class="hi-meta">📝 ${h.notes}</div>` : ''}
+        <div class="hi-ts">${new Date(h.timestamp).toLocaleString('th-TH',{dateStyle:'medium',timeStyle:'short'})}</div>
+      </div>
+      <span class="hi-tag ${h.sheetSent?'tag-sheet':'tag-local'}">${h.sheetSent?'📊 ส่ง Sheets แล้ว':'💾 เครื่องเท่านั้น'}</span>
+    </div>
+  `).join('');
+}
+
+function confirmClearHistory() {
+  openModal('🗑️ ล้างประวัติ', 'ต้องการล้างประวัติการบันทึกทั้งหมด?\nไม่สามารถกู้คืนได้', 'ล้างประวัติ', 'btn-red', () => {
+    state.history = []; saveState(); renderHistory();
+    toast('🗑️ ล้างประวัติแล้ว', 'info');
+  });
+}
+
+// ─── GOOGLE SHEETS ───────────────────────────
+function buildPayload(sheetSent=false) {
+  const done = ITEMS_DEF.filter(i=>!i.isShirt&&state.items[i.id].checked).length
+             + (SIZES.every(s=>state.items['shirt'].sizes[s].checked) ? 1 : 0);
+  return {
+    project:  document.getElementById('projName').value.trim() || '(ไม่ระบุ)',
+    date:     document.getElementById('projDate').value,
+    venue:    document.getElementById('projVenue').value.trim(),
+    owner:    document.getElementById('projOwner').value.trim(),
+    prepDate: document.getElementById('projPrepDate').value,
+    count:    state.count,
+    total:    ITEMS_DEF.length,
+    done,
+    notes:    document.getElementById('globalNote').value.trim(),
+    timestamp: new Date().toISOString(),
+    sheetSent,
+    items: ITEMS_DEF.map(it => {
+      const s = state.items[it.id];
+      if (it.isShirt) {
+        return { id:it.id, name:it.name, unit:it.unit,
+          checked: SIZES.every(sz=>s.sizes[sz].checked),
+          sizes: Object.fromEntries(SIZES.map(sz=>[sz, s.sizes[sz].qty||0])) };
+      }
+      return { id:it.id, name:it.name, unit:it.unit, qty:s.qty, checked:s.checked, note:s.note||'' };
+    })
+  };
+}
+
+async function saveAndSendSheet() {
+  const url = (state.sheetUrl||'').trim();
+  const payload = buildPayload(!!url);
+  state.history.push(payload);
+  saveState();
+
+  if (!url) {
+    toast('💾 บันทึกในเครื่องแล้ว — ตั้งค่า URL ใน ⚙️ ตั้งค่า เพื่อส่ง Sheets', 'info');
+    return;
+  }
+
+  toast('⏳ กำลังส่งข้อมูล...', 'info');
+
+  try {
+    // Send as text/plain to avoid CORS preflight
+    await fetch(url, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+      body: JSON.stringify(payload)
+    });
+    // no-cors always resolves (opaque response) — assume success
+    state.history[state.history.length-1].sheetSent = true;
+    saveState();
+    toast('✅ ส่งข้อมูลไป Google Sheets เรียบร้อย', 'ok');
+  } catch(e) {
+    toast('❌ เชื่อมต่อ Sheets ไม่ได้: '+e.message, 'err');
+  }
+}
+
+async function testSheetConnection() {
+  const url = document.getElementById('sheetUrl').value.trim();
+  if (!url) { toast('กรุณาใส่ URL ก่อน', 'err'); return; }
+  if (!url.startsWith('https://script.google.com')) {
+    toast('URL ต้องขึ้นต้นด้วย https://script.google.com', 'err'); return;
+  }
+  toast('⏳ กำลังทดสอบ...', 'info');
+  try {
+    fetch(url, {
+      method: 'POST', mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+      body: JSON.stringify({ test:true, timestamp: new Date().toISOString() })
+    });
+    setTimeout(() => toast('✅ ส่งคำขอทดสอบแล้ว — เปิด Google Sheets ตรวจสอบว่ามีข้อมูลเข้า', 'ok'), 1200);
+  } catch(e) { toast('❌ เชื่อมต่อไม่สำเร็จ', 'err'); }
+}
+
+// ─── SETTINGS ────────────────────────────────
+const APPS_SCRIPT_CODE = `// ═══════════════════════════════════════════════
+// Google Apps Script สำหรับ Training Prep System
+// วางโค้ดนี้แทนที่โค้ดเดิมทั้งหมด แล้ว Deploy → Web App
+// ═══════════════════════════════════════════════
+
+function doPost(e) {
+  return process(e);
+}
+
+function doGet(e) {
+  return process(e);
+}
+
+function process(e) {
+  try {
+    var raw = '';
+    if (e.postData && e.postData.contents) {
+      raw = e.postData.contents;
+    } else if (e.parameter && e.parameter.data) {
+      raw = e.parameter.data;
+    }
+
+    // ทดสอบการเชื่อมต่อ
+    if (!raw || raw.indexOf('"test":true') !== -1) {
+      return respond('CONNECTION_OK');
+    }
+
+    var data = JSON.parse(raw);
+    var ss   = SpreadsheetApp.getActiveSpreadsheet();
+
+    // ── Sheet: Log (สรุปต่อครั้ง) ──────────────
+    var logSheet = ss.getSheetByName('Log');
+    if (!logSheet) {
+      logSheet = ss.insertSheet('Log');
+      var hdr = logSheet.getRange(1,1,1,9);
+      hdr.setValues([[
+        'Timestamp','โครงการ','วันที่อบรม','สถานที่',
+        'ผู้รับผิดชอบ','จำนวนคน','เตรียมแล้ว','ทั้งหมด','หมายเหตุ'
+      ]]);
+      hdr.setFontWeight('bold')
+         .setBackground('#1e2433')
+         .setFontColor('#ffffff');
+    }
+    logSheet.appendRow([
+      data.timestamp, data.project, data.date || '',
+      data.venue || '', data.owner || '', data.count || 0,
+      data.done || 0,  data.total || 0, data.notes || ''
+    ]);
+
+    // ── Sheet: Items (รายการของแต่ละครั้ง) ──────
+    var itmSheet = ss.getSheetByName('Items');
+    if (!itmSheet) {
+      itmSheet = ss.insertSheet('Items');
+      var hdr2 = itmSheet.getRange(1,1,1,8);
+      hdr2.setValues([[
+        'Timestamp','โครงการ','รายการ','ไซส์',
+        'จำนวน','หน่วย','เตรียมแล้ว','หมายเหตุ'
+      ]]);
+      hdr2.setFontWeight('bold')
+          .setBackground('#1e2433')
+          .setFontColor('#ffffff');
+    }
+
+    if (data.items && data.items.length > 0) {
+      var rows = [];
+      data.items.forEach(function(item) {
+        if (item.sizes) {
+          // เสื้อ: แยกแต่ละไซส์
+          Object.keys(item.sizes).forEach(function(sz) {
+            rows.push([
+              data.timestamp, data.project,
+              item.name, sz, item.sizes[sz] || 0, item.unit,
+              item.checked ? 'ใช่' : 'ไม่', ''
+            ]);
+          });
+        } else {
+          rows.push([
+            data.timestamp, data.project,
+            item.name, '-', item.qty || 0, item.unit,
+            item.checked ? 'ใช่' : 'ไม่', item.note || ''
+          ]);
+        }
+      });
+      if (rows.length > 0) {
+        var startRow = itmSheet.getLastRow() + 1;
+        itmSheet.getRange(startRow, 1, rows.length, 8).setValues(rows);
+      }
+    }
+
+    return respond('SUCCESS');
+
+  } catch(err) {
+    return respond('ERROR: ' + err.toString());
+  }
+}
+
+function respond(msg) {
+  return ContentService
+    .createTextOutput(JSON.stringify({ status: msg }))
+    .setMimeType(ContentService.MimeType.JSON);
+}`;
+
+function loadSettings() {
+  document.getElementById('sheetUrl').value = state.sheetUrl || '';
+  document.getElementById('appsScriptCode').textContent = APPS_SCRIPT_CODE;
+}
+
+function saveSheetUrl() {
+  state.sheetUrl = document.getElementById('sheetUrl').value.trim();
+  saveState();
+  toast('💾 บันทึก URL แล้ว', 'ok');
+}
+
+function copyAppsScript() {
+  const text = APPS_SCRIPT_CODE;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => toast('📋 คัดลอก Script แล้ว', 'ok')).catch(fallback);
+  } else { fallback(); }
+  function fallback() {
+    const ta = Object.assign(document.createElement('textarea'), {value:text});
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta); toast('📋 คัดลอก Script แล้ว', 'ok');
+  }
+}
+
+function exportData() {
+  const blob = new Blob([JSON.stringify(state,null,2)], {type:'application/json'});
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(blob),
+    download: `training_${new Date().toISOString().slice(0,10)}.json`
+  });
+  a.click();
+  toast('⬇️ Export สำเร็จ', 'ok');
+}
+
+function importData() {
+  const inp = Object.assign(document.createElement('input'), {type:'file', accept:'.json'});
+  inp.onchange = e => {
+    const fr = new FileReader();
+    fr.onload = ev => {
+      try {
+        state = JSON.parse(ev.target.result);
+        if (!state.history) state.history = [];
+        saveState(); renderChecklist();
+        toast('✅ Import สำเร็จ', 'ok');
+      } catch { toast('❌ ไฟล์ไม่ถูกต้อง', 'err'); }
+    };
+    fr.readAsText(e.target.files[0]);
+  };
+  inp.click();
+}
+
+function confirmResetAll() {
+  openModal('⚠️ รีเซ็ตข้อมูลทั้งหมด',
+    'ข้อมูล Checklist, สต๊อก และประวัติทั้งหมดจะถูกลบถาวร\nแนะนำ Export JSON ก่อนรีเซ็ต',
+    'รีเซ็ต', 'btn-red', () => {
+      state = makeDefaultState(); saveState(); renderChecklist();
+      toast('↺ รีเซ็ตเรียบร้อย', 'info');
+    });
+}
+
+// ─── INIT ────────────────────────────────────
+document.getElementById('projPrepDate').valueAsDate = new Date();
+document.getElementById('countDisplay').textContent = state.count;
+document.getElementById('printDate').textContent = new Date().toLocaleDateString('th-TH', {day:'numeric',month:'long',year:'numeric'});
+renderChecklist();
+
+// update deduct lock when project/date changes
+['projName','projDate'].forEach(id => {
+  document.getElementById(id).addEventListener('input', updateDeductBtn);
+});
+setTimeout(updateDeductBtn, 0); // after render
+
+// ─── PRINT ───────────────────────────────────
+function doPrint() {
+  // sync print-only fields from inputs
+  const fmt = v => v || '—';
+  document.getElementById('pi-project').textContent  = fmt(document.getElementById('projName').value);
+  document.getElementById('pi-date').textContent     = fmt(document.getElementById('projDate').value);
+  document.getElementById('pi-venue').textContent    = fmt(document.getElementById('projVenue').value);
+  document.getElementById('pi-owner').textContent    = fmt(document.getElementById('projOwner').value);
+  document.getElementById('pi-count').textContent    = state.count + ' คน';
+  document.getElementById('pi-prepdate').textContent = fmt(document.getElementById('projPrepDate').value);
+  document.getElementById('pi-note').textContent     = document.getElementById('globalNote').value || '—';
+  document.getElementById('printDate').textContent   = new Date().toLocaleDateString('th-TH',{day:'numeric',month:'long',year:'numeric'});
+  window.print();
+}
+</script>
+</body>
+</html>
