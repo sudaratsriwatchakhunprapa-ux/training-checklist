@@ -753,9 +753,9 @@ pre.code-block {
           <div class="field">
             <label>วันที่อบรม (ช่วงเวลา)</label>
             <div style="display:flex;align-items:center;gap:8px;">
-              <input type="date" id="projDateStart" style="flex:1;">
+              <input type="text" id="projDateStart" placeholder="dd/mm/yy" style="flex:1;">
               <span style="color:var(--text2);font-size:13px;font-weight:600;white-space:nowrap;">ถึง</span>
-              <input type="date" id="projDateEnd" style="flex:1;">
+              <input type="text" id="projDateEnd" placeholder="dd/mm/yy" style="flex:1;">
             </div>
           </div>
           <div class="field">
@@ -764,7 +764,7 @@ pre.code-block {
           </div>
           <div class="field">
             <label>วันที่เตรียม</label>
-            <input type="date" id="projPrepDate">
+            <input type="text" id="projPrepDate" placeholder="dd/mm/yy">
           </div>
         </div>
       </div>
@@ -1668,7 +1668,11 @@ function confirmResetAll() {
 }
 
 // ─── INIT ────────────────────────────────────
-document.getElementById('projPrepDate').valueAsDate = new Date();
+const today = new Date();
+const dd = String(today.getDate()).padStart(2,'0');
+const mm = String(today.getMonth()+1).padStart(2,'0');
+const yy = String(today.getFullYear()).slice(-2);
+document.getElementById('projPrepDate').value = `${dd}/${mm}/${yy}`;
 document.getElementById('countDisplay').textContent = state.count;
 document.getElementById('printDate').textContent = new Date().toLocaleDateString('th-TH', {day:'numeric',month:'long',year:'numeric'});
 renderChecklist();
