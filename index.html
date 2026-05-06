@@ -746,10 +746,12 @@ pre.code-block {
             <input type="text" id="projOwner" placeholder="ชื่อผู้รับผิดชอบ...">
           </div>
           <div class="field">
-            <label>วันที่เตรียม</label>
-            <input type="date" id="projPrepDate">
-          </div>
-        </div>
+    <label>วันที่เตรียม</label>
+    <div style="position:relative;">
+      <input type="text" id="projPrepDateDisplay" placeholder="06 พ.ค. 69" style="width:100%;" readonly onclick="document.getElementById('projPrepDate').showPicker()">
+      <input type="date" id="projPrepDate" style="position:absolute;opacity:0;width:0;height:0;" onchange="convertThaiDate(this.value)">
+    </div>
+</div>
       </div>
     </div>
 
@@ -1651,7 +1653,17 @@ function confirmResetAll() {
 }
 
 // ─── INIT ────────────────────────────────────
-document.getElementById('projPrepDate').valueAsDate = new Date();
+const months = ['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+function convertThaiDate(val) {
+  if (!val) return;
+  const d = new Date(val);
+  const dd = String(d.getDate()).padStart(2,'0');
+  const mm = months[d.getMonth()];
+  const yy = String(d.getFullYear() + 543).slice(-2);
+  document.getElementById('projPrepDateDisplay').value = `${dd} ${mm} ${yy}`;
+}
+const today = new Date();
+convertThaiDate(today.toISOString().slice(0,10));
 document.getElementById('countDisplay').textContent = state.count;
 document.getElementById('printDate').textContent = new Date().toLocaleDateString('th-TH', {day:'numeric',month:'long',year:'numeric'});
 renderChecklist();
