@@ -1686,7 +1686,7 @@ function doPrint() {
   document.getElementById('pi-venue').textContent    = fmt(document.getElementById('projVenue').value);
   document.getElementById('pi-owner').textContent    = fmt(document.getElementById('projOwner').value);
   document.getElementById('pi-count').textContent    = state.count + ' คน';
-  document.getElementById('pi-prepdate').textContent = fmt(document.getElementById('projPrepDate').value);
+  document.getElementById('pi-prepdate').textContent = fmt(document.getElementById('projPrepDateDisplay').value);
   document.getElementById('pi-note').textContent     = document.getElementById('globalNote').value || '—';
   document.getElementById('printDate').textContent   = new Date().toLocaleDateString('th-TH',{day:'numeric',month:'long',year:'numeric'});
   window.print();
